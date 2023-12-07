@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { fetchContacts } from 'redux/operations';
 import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
 
+import Loader from 'components/Loader/Loader';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Section } from 'components/Section/Section';
 import { ContactList } from 'components/ContactList/ContactList';
@@ -26,7 +27,7 @@ export const App = () => {
       <Section title="Phonebook">
         <ContactForm />
       </Section>
-      {isLoading && !error && <b>Loading...</b>}
+      {isLoading && !error && <Loader/>}
       {contacts.length > 0 ? (
         <Section title="Contacts">
           <Filter />

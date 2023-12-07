@@ -16,36 +16,40 @@ const handleRejected = (state, action) => {
   state.error = action.payload;
 };
 
+const handleFetchContacts = (state, action) => {
+  state.isLoading = false;
+  state.error = null;
+  state.contacts = action.payload;
+};
+
+const handleAddContact = (state, action) => {
+  state.isLoading = false;
+  state.error = null;
+  state.contacts.push(action.payload);
+};
+
+const handleDeleteContact = (state, action) => {
+  state.isLoading = false;
+  state.error = null;
+  state.contacts = state.contacts.filter(
+    contact => contact.id !== action.payload
+  );
+};
+
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contactsInitialState,
-  extraReducers: {
-    [fetchContacts.pending]: handlePending,
-    [addContact.pending]: handlePending,
-    [deleteContact.pending]: handlePending,
-    [fetchContacts.rejected]: handleRejected,
-    [addContact.rejected]: handleRejected,
-    [deleteContact.rejected]: handleRejected,
-    [fetchContacts.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-      state.contacts = action.payload;
-    },
-    [addContact.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-      state.contacts.push(action.payload);
-    },
-    [deleteContact.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-      // const index = state.contacts.findIndex(
-      //   contact => contact.id === action.payload.id
-      // );
-      // state.contacts.splice(index, 1, action.payload);
-      state.contacts.filter(contact => contact.id !== action.payload.id);
-    },
-  },
+  extraReducers: bilder =>
+    bilder
+      .addCase(fetchContacts.pending, handlePending)
+      .addCase(addContact.pending, handlePending)
+      .addCase(deleteContact.pending, handlePending)
+      .addCase(fetchContacts.rejected, handleRejected)
+      .addCase(addContact.rejected, handleRejected)
+      .addCase(deleteContact.rejected, handleRejected)
+      .addCase(fetchContacts.fulfilled, handleFetchContacts)
+      .addCase(addContact.fulfilled, handleAddContact)
+      .addCase(deleteContact.fulfilled, handleDeleteContact),
 });
 
 export const { fetchingInProgress, fetchingSuccess, fetchingError } =
