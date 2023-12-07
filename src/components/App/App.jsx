@@ -26,7 +26,7 @@ export const App = () => {
       <Section title="Phonebook">
         <ContactForm />
       </Section>
-      {isLoading && !error && <b>Loading</b>}
+      {isLoading && !error && <b>Loading...</b>}
       {contacts.length > 0 ? <Section title="Contacts">
         <Filter />
         <ContactList />
